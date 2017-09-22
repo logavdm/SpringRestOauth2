@@ -1,15 +1,27 @@
 package com.authconfig;
 
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+	
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenStore {
 
-	public static InMemoryTokenStore token=new InMemoryTokenStore();
+	@Autowired
+	DataSource dataSource;
 	
-	public static InMemoryTokenStore GetTokenStore(){
-		return token;
+
+	public DataSource getDataSource(){
+		return this.dataSource;
+	}
+	
+	public JdbcTokenStore getTokenStore(){
+		
+		return new JdbcTokenStore(dataSource);
 	}
 	
 }
